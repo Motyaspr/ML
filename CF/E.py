@@ -9,12 +9,15 @@ def getRandom(i, n):
             break
     return t
 
+
 n = int(input())
+
 K = [list() for i in range(n)]
 Y = [0 for i in range(n)]
 for i in range(n):
     a = list(map(int, input().split()))
     K[i], Y[i] = a[:-1], a[-1]
+
 C = float(input())
 
 def getE(ind):
@@ -23,22 +26,25 @@ def getE(ind):
         res += alphas[i] * Y[i] * K[ind][i]
     return res + b - Y[ind]
 
+
 def getLH(i, j, c):
+    L = 0.0
+    H = 0.0
     if Y[i] == Y[j]:
-        L = max(0.0, alphas[i] + alphas[j] - c)
+        L = max(L, alphas[i] + alphas[j] - c)
         H = min(alphas[i] + alphas[j], c)
     else:
-        L = max(0.0, alphas[j] - alphas[i])
+        L = max(L, alphas[j] - alphas[i])
         H = min(c, c + alphas[j] - alphas[i])
     return L, H
 
 alphas = [0.0 for i in range(n)]
 passes = 0
-max_passes = 5
+max_passes = 10
 b = 0.0
-tol = 1e-7
+tol = 1e-8
 xx = 0
-while (xx < n * 5000):
+while (xx < n * 3000):
     for i in range(n):
         xx += 1
         E_i = getE(i)
